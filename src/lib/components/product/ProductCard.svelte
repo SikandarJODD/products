@@ -1,0 +1,69 @@
+<script lang="ts">
+	import { scale } from 'svelte/transition';
+	import { addToCart, isPresentInCart } from '$lib/index';
+	import type { Product } from '$lib/types/products';
+	import { ShoppingCart } from 'lucide-svelte';
+	import { CircleCheckBig } from 'lucide-svelte';
+
+	export let product: Product;
+
+	let alreadyPresent = false;
+</script>
+
+<div class="group relative overflow-hidden rounded-lg border pb-2 hover:border-neutral-700/20">
+	<a href="/products/{product.id}">
+		<div
+			class="aspect-h-1 aspect-w-1 lg:aspect-none h-96 w-full overflow-hidden rounded-md p-1 transition-all duration-300 group-hover:opacity-75 lg:h-80"
+		>
+			<img
+				src={product.image}
+				alt="Front of men&#039;s Basic Tee in black."
+				class="h-full w-full object-contain object-center lg:h-full lg:w-full"
+			/>
+		</div>
+		<div class="mt-4 flex justify-between px-3">
+			<div>
+				<h3 class="text-sm font-semibold text-gray-900">
+					<a href="/products/{product.id}">
+						{product.name}
+					</a>
+				</h3>
+				<p class="mt-1 text-xs text-gray-500">{product.description.slice(0, 40)}...</p>
+			</div>
+			<p class="text-sm font-medium text-gray-900">₹{product.price}.00</p>
+		</div>
+	</a>
+	<div class="z-50 mt-2 px-2">
+		<button
+			on:click={() => {
+				if (isPresentInCart(product.id) === true) {
+					alreadyPresent = true;
+				} else {
+					addToCart(product, 1);
+					console.log(product, 'working');
+					alreadyPresent = true;
+				}
+			}}
+			class="flex w-full items-center justify-center gap-1 rounded-md border py-2 font-medium
+            {alreadyPresent ? 'bg-green-200' : 'bg-gray-100'} transition-all duration-300
+            "
+		>
+			{#if alreadyPresent}
+				<svg
+					in:scale
+					xmlns="http://www.w3.org/2000/svg"
+					fill="#000000"
+					class="mb-0.5 size-5"
+					viewBox="0 0 256 256"
+					><path
+						d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V72H40V56Zm0,144H40V88H216V200Zm-40-88a48,48,0,0,1-96,0,8,8,0,0,1,16,0,32,32,0,0,0,64,0,8,8,0,0,1,16,0Z"
+					></path></svg
+				>
+				Added to Cart
+			{:else}
+				<ShoppingCart strokeWidth={1.5} class="mb-0.5 size-5" />
+				Add to Cart
+			{/if}
+		</button>
+	</div>
+</div>

@@ -4,18 +4,18 @@ import type { CartItem, Product } from './types/products';
 // using writable for global state management
 export let products: Product[] = [
 	{
-		id: 1,
-		name: 'Product 1',
+		id: 'noice_#10',
+		name: 'Noise Force Plus',
 		price: 100,
-		image: 'https://via.placeholder.com/150',
-		description: 'Description of Product 1'
+		image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/smartwatch/p/f/k/-original-imagkjtjgdzhgdz5.jpeg?q=70',
+		description: 'Neo Gents V Analog Watch - For Men NQ1849SL03'
 	},
 	{
-		id: 2,
-		name: 'Product 2',
+		id: 'fossil_#12',
+		name: 'FOSSIL',
 		price: 200,
-		image: 'https://via.placeholder.com/150',
-		description: 'Description of Product 2'
+		image: 'https://rukminim2.flixcart.com/image/612/612/k1zbssw0pkrrdj/watch-refurbished/u/v/c/c-fs4662-fossil-original-imafhcgdmbvgefhx.jpeg?q=70',
+		description: 'Izzy Analog Watch - For Women ES4782'
 	}
 ];
 
@@ -47,7 +47,7 @@ export let addToCart = (product: Product, quantity: number) => {
 };
 
 // Remove from Cart function : Remove Button - Flipkart
-export let removefromCart = (productId: number) => {
+export let removefromCart = (productId: string) => {
 	cart.update(($cart) => {
 		return $cart.filter((i) => i.product.id !== productId);
 	});
@@ -61,7 +61,7 @@ export let clearCart = () => {
 // we need 3 buttons remove, add and input text box to update the quantity of the product
 
 // Update the Quantity of Cart Item
-export let updateQuantity = (productId: number, quantity: number) => {
+export let updateQuantity = (productId: string, quantity: number) => {
 	cart.update(($cart) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
@@ -71,7 +71,7 @@ export let updateQuantity = (productId: number, quantity: number) => {
 	});
 };
 
-export let increaseQuantity = (productId: number) => {
+export let increaseQuantity = (productId: string) => {
 	cart.update(($cart) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
@@ -81,7 +81,7 @@ export let increaseQuantity = (productId: number) => {
 	});
 };
 
-export let decreaseQuantity = (productId: number) => {
+export let decreaseQuantity = (productId: string) => {
 	cart.update(($cart) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
@@ -89,4 +89,12 @@ export let decreaseQuantity = (productId: number) => {
 		}
 		return $cart;
 	});
+};
+
+export let isPresentInCart = (productId: string): boolean => {
+	let isPresent = 0;
+	cart.subscribe(($cart) => {
+		isPresent = $cart.findIndex((i) => i.product.id === productId);
+	});
+	return isPresent === -1 ? false : true;
 };

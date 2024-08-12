@@ -46,7 +46,7 @@
 			</div>
 			<div class="hidden sm:ml-6 sm:block">
 				<div class="flex items-center">
-					<button type="button" class="relative rounded-full p-1 text-gray-700">
+					<a href='/viewcart' class="relative rounded-full p-1 text-gray-700">
 						<span class="absolute -inset-1.5"></span>
 						<span class="sr-only">Cart Icon</span>
 						{#if $totalUniqueItems > 0}
@@ -70,7 +70,7 @@
 								d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
 							/></svg
 						>
-					</button>
+					</a>
 
 					<!-- Profile dropdown -->
 					<!-- <div class="relative ml-3">
