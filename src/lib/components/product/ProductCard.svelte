@@ -4,16 +4,20 @@
 	import type { Product } from '$lib/types/products';
 	import { ShoppingCart } from 'lucide-svelte';
 	import { CircleCheckBig } from 'lucide-svelte';
+	import { onMount } from 'svelte';
 
 	export let product: Product;
 
 	let alreadyPresent = false;
+	onMount(() => {
+		alreadyPresent = isPresentInCart(product.id);
+	});
 </script>
 
-<div class="group relative overflow-hidden rounded-lg border pb-2 hover:border-neutral-700/20">
+<div class="group relative overflow-hidden rounded-lg border pb-2 hover:border-neutral-700/20 h-auto">
 	<a href="/products/{product.id}">
 		<div
-			class="aspect-h-1 aspect-w-1 lg:aspect-none h-96 w-full overflow-hidden rounded-md p-1 transition-all duration-300 group-hover:opacity-75 lg:h-80"
+			class="aspect-h-1 aspect-w-1 lg:aspect-none h-52 md:h-96 w-full overflow-hidden rounded-md p-1 transition-all duration-300 group-hover:opacity-75 lg:h-80"
 		>
 			<img
 				src={product.image}
@@ -28,9 +32,28 @@
 						{product.name}
 					</a>
 				</h3>
-				<p class="mt-1 text-xs text-gray-500">{product.description.slice(0, 40)}...</p>
+				<p class="mt-1 text-xs text-gray-500">{product.description.slice(0, 60)}...</p>
 			</div>
-			<p class="text-sm font-medium text-gray-900">₹{product.price}.00</p>
+		</div>
+		<div class="mt-4 flex flex-wrap items-center justify-between px-3">
+			<p class="text-[18px] font-medium text-gray-900">
+				{#if product.discount}
+					₹{product.price / product.discount}.00
+					<span class="ml-px text-xs text-neutral-500/80 line-through">₹{product.price}.00</span>
+				{/if}
+			</p>
+			{#if product.tag}
+				<div class="mt-2 md:-0">
+					<span
+						class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-[11px] font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
+					>
+						<svg class="h-1.5 w-1.5 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
+							<circle cx="3" cy="3" r="3" />
+						</svg>
+						{product.tag}
+					</span>
+				</div>
+			{/if}
 		</div>
 	</a>
 	<div class="z-50 mt-2 px-2">

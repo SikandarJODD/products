@@ -4,6 +4,8 @@ export interface Product {
 	price: number;
 	image: string;
 	description: string;
+	discount?: number;
+	tag?: string;
 }
 //  Add to Cart Type for Ecommerce application
 

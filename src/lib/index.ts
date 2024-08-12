@@ -6,16 +6,22 @@ export let products: Product[] = [
 	{
 		id: 'noice_#10',
 		name: 'Noise Force Plus',
-		price: 100,
-		image: 'https://rukminim2.flixcart.com/image/612/612/xif0q/smartwatch/p/f/k/-original-imagkjtjgdzhgdz5.jpeg?q=70',
-		description: 'Neo Gents V Analog Watch - For Men NQ1849SL03'
+		price: 3000,
+		image:
+			'https://rukminim2.flixcart.com/image/612/612/xif0q/smartwatch/p/f/k/-original-imagkjtjgdzhgdz5.jpeg?q=70',
+		description: 'Neo Gents V Analog Watch - For Men',
+		discount: 30,
+		tag: 'Best Seller'
 	},
 	{
 		id: 'fossil_#12',
 		name: 'FOSSIL',
-		price: 200,
-		image: 'https://rukminim2.flixcart.com/image/612/612/k1zbssw0pkrrdj/watch-refurbished/u/v/c/c-fs4662-fossil-original-imafhcgdmbvgefhx.jpeg?q=70',
-		description: 'Izzy Analog Watch - For Women ES4782'
+		price: 4500,
+		image:
+			'https://rukminim2.flixcart.com/image/612/612/k1zbssw0pkrrdj/watch-refurbished/u/v/c/c-fs4662-fossil-original-imafhcgdmbvgefhx.jpeg?q=70',
+		description: 'Izzy Analog Watch - For Women ES4782',
+		discount: 20,
+		tag: '20% off'
 	}
 ];
 
@@ -98,3 +104,27 @@ export let isPresentInCart = (productId: string): boolean => {
 	});
 	return isPresent === -1 ? false : true;
 };
+
+export let totalPrice = derived(cart, ($cart) => {
+	return $cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+});
+
+// On Each Product we are giving 10% discount
+export let totalDiscount = derived(cart, ($cart) => {
+	return $cart.reduce((acc, item) => acc + item.product.price * item.quantity * 0.1, 0);
+});
+
+// We can add custom discount logic by adding discount property to the product object
+export let totalDiscountAmount = derived(cart, ($cart) => {
+	return $cart.reduce((acc, item) => {
+		let discount = item.product.discount ? item.product.discount : 0;
+		return acc + item.product.price * item.quantity * (discount / 100);
+	}, 0);
+});
+
+export let totalAmount = derived(
+	[totalPrice, totalDiscountAmount],
+	([$totalPrice, $totalDiscountAmount]) => {
+		return $totalPrice - $totalDiscountAmount;
+	}
+);
