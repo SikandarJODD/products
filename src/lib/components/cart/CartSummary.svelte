@@ -1,11 +1,6 @@
 <script>
-	import {
-		totalAmount,
-		totalDiscount,
-		totalDiscountAmount,
-		totalPrice,
-		totalUniqueItems
-	} from '$lib';
+	import { totalAmount, totalDiscountAmount, totalPrice, totalUniqueItems } from '$lib';
+	import { notify } from '$lib/utils';
 </script>
 
 <section
@@ -21,7 +16,9 @@
 		</div>
 		<div class="flex items-center justify-between">
 			<dt class="text-sm text-gray-600">Discount</dt>
-			<dd class="text-sm font-medium text-green-600/80">- ₹{$totalDiscountAmount}.00</dd>
+			<dd class="text-sm font-medium text-green-600/80">
+				- ₹{Math.round($totalDiscountAmount)}.00
+			</dd>
 		</div>
 		<div class="flex items-center justify-between">
 			<dt class="flex gap-1 text-sm text-gray-600">
@@ -40,17 +37,25 @@
 			<dd class="text-sm font-normal text-green-600/80">Free</dd>
 		</div>
 
-		<div class="flex items-center justify-between border-t border-gray-200 pt-4">
+		<div class="flex items-center justify-between border-t border-dashed border-gray-200 pt-4">
 			<dt class="text-base font-medium text-gray-900">Total Amount</dt>
-			<dd class="text-base font-medium text-gray-900">₹{$totalAmount}</dd>
+			<dd class="text-base font-medium text-gray-900">₹{Math.ceil($totalAmount)}</dd>
 		</div>
 	</dl>
 
 	<div class="mt-6">
 		<button
+			on:click={() =>
+				notify('Order Placed Successfully!', 'Visit Checkout page to see your order details.')}
 			type="submit"
 			class="w-full rounded-md border border-transparent bg-emerald-500 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-emerald-500/95 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-50"
 			>Place Order</button
 		>
+	</div>
+	<!-- It would great if we use proper font size - rem -->
+	<div class="mt-3">
+		<p class="text-[1rem] font-semibold text-emerald-600">
+			You will Save ₹{Math.round($totalDiscountAmount)} on this order
+		</p>
 	</div>
 </section>

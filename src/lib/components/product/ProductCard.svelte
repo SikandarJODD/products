@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { notify } from '$lib/utils';
 	import { scale } from 'svelte/transition';
 	import { addToCart, isPresentInCart } from '$lib/index';
 	import type { Product } from '$lib/types/products';
 	import { ShoppingCart } from 'lucide-svelte';
-	import { CircleCheckBig } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	export let product: Product;
@@ -12,20 +12,23 @@
 	onMount(() => {
 		alreadyPresent = isPresentInCart(product.id);
 	});
+	$: productPrice = product.discount ? product.price * (1 - product.discount / 100) : product.price;
 </script>
 
-<div class="group relative overflow-hidden rounded-lg border pb-2 hover:border-neutral-700/20 h-auto">
+<div
+	class="group relative h-auto overflow-hidden rounded-lg border pb-2 hover:border-neutral-700/20"
+>
 	<a href="/products/{product.id}">
 		<div
-			class="aspect-h-1 aspect-w-1 lg:aspect-none h-52 md:h-96 w-full overflow-hidden rounded-md p-1 transition-all duration-300 group-hover:opacity-75 lg:h-80"
+			class="aspect-h-1 aspect-w-1 lg:aspect-none h-52 w-full overflow-hidden rounded-md p-1 transition-all duration-300 group-hover:opacity-75 md:h-96 lg:h-80"
 		>
 			<img
 				src={product.image}
 				alt="Front of men&#039;s Basic Tee in black."
-				class="h-full w-full object-contain object-center lg:h-full lg:w-full"
+				class="h-full w-full rounded-xl object-contain object-center lg:h-full lg:w-full"
 			/>
 		</div>
-		<div class="mt-4 flex justify-between px-3">
+		<div class="mt-4 flex min-h-14 justify-between px-3">
 			<div>
 				<h3 class="text-sm font-semibold text-gray-900">
 					<a href="/products/{product.id}">
@@ -35,15 +38,15 @@
 				<p class="mt-1 text-xs text-gray-500">{product.description.slice(0, 60)}...</p>
 			</div>
 		</div>
-		<div class="mt-4 flex flex-wrap items-center justify-between px-3">
-			<p class="text-[18px] font-medium text-gray-900">
-				{#if product.discount}
-					₹{product.price / product.discount}.00
-					<span class="ml-px text-xs text-neutral-500/80 line-through">₹{product.price}.00</span>
-				{/if}
-			</p>
+		<div class="mt-4 flex flex-wrap items-baseline justify-between px-3">
+			<div class="flex items-baseline gap-1">
+				<p class="text-[16px] font-medium text-gray-900">
+					₹{Math.ceil(productPrice)}.00
+				</p>
+				<span class="ml-px text-xs text-neutral-500/80 line-through">₹{product.price}.00</span>
+			</div>
 			{#if product.tag}
-				<div class="mt-2 md:-0">
+				<div class="md:-0">
 					<span
 						class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-[11px] font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
 					>
@@ -66,6 +69,7 @@
 					console.log(product, 'working');
 					alreadyPresent = true;
 				}
+				notify(`${product.name} added to cart!`, 'Visit cart to see your order details.');
 			}}
 			class="flex w-full items-center justify-center gap-1 rounded-md border py-2 font-medium
             {alreadyPresent ? 'bg-green-200' : 'bg-gray-100'} transition-all duration-300

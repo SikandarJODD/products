@@ -9,7 +9,7 @@ export let products: Product[] = [
 		price: 3000,
 		image:
 			'https://rukminim2.flixcart.com/image/612/612/xif0q/smartwatch/p/f/k/-original-imagkjtjgdzhgdz5.jpeg?q=70',
-		description: 'Neo Gents V Analog Watch - For Men',
+		description: 'Neo Gents V Analog Watch - For Men Limited Edition',
 		discount: 30,
 		tag: 'Best Seller'
 	},
@@ -19,9 +19,86 @@ export let products: Product[] = [
 		price: 4500,
 		image:
 			'https://rukminim2.flixcart.com/image/612/612/k1zbssw0pkrrdj/watch-refurbished/u/v/c/c-fs4662-fossil-original-imafhcgdmbvgefhx.jpeg?q=70',
-		description: 'Izzy Analog Watch - For Women ES4782',
+		description: 'Izzy Analog Watch - For Women ES4782  Limited Edition',
 		discount: 20,
 		tag: '20% off'
+	},
+	{
+		id: 'yello_cimes#12',
+		name: 'Yellow Chimes',
+		price: 999,
+		discount: 77,
+		description: 'Yellow Chimes Crystal Stainless Steel Bracelet',
+		image:
+			'https://rukminim2.flixcart.com/image/612/612/l1xwqkw0/ring/7/s/g/-original-imagde4th6wevgnh.jpeg?q=70'
+	},
+	{
+		id: 'devora_#14',
+		name: 'Devora Rings',
+		description: 'Devora Rings Gold Plated Cubic Zirconia Ring',
+		price: 999,
+		discount: 83,
+		image:
+			'https://rukminim2.flixcart.com/image/612/612/xif0q/ring/m/b/x/-original-imahyjfdrwpknpkm.jpeg?q=70'
+	},
+	{
+		id: 'apple_mac#12',
+		name: 'Apple 2022 MacBook Air',
+		price: 99900,
+		description: 'Apple M1 Chip 8-core CPU and 7-core GPU 256 GB SSD',
+		image:
+			'https://rukminim2.flixcart.com/image/312/312/xif0q/computer/2/v/v/-original-imagfdeqter4sj2j.jpeg?q=70',
+		tag: 'Best Seller',
+		discount: 11
+	},
+	{
+		id: 'vivo_t2_5g#12',
+		name: 'Vivo T2 5G',
+		price: 23999,
+		discount: 33,
+		description: 'Vivo T2 5G (Midnight Black, 128 GB)  (8 GB RAM)',
+		image:
+			'https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/u/1/h/-original-imagpfbvfu4p55n4.jpeg?q=70',
+		tag: 'Lowest Price'
+	},
+	{
+		id: 'samsung_galaxy#12',
+		name: 'SAMSUNG Galaxy F14 5G',
+		price: 16499,
+		discount: 6,
+		description: 'SAMSUNG Galaxy F14 5G (Sky Blue, 64 GB)  (4 GB RAM)',
+		image:
+			'https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/8/5/z/galaxy-a14-sm-a145fzsdins-samsung-original-imagq6cp4mbhejzn.jpeg?q=70'
+	},
+	{
+		id: 'asus_viobook#12',
+		name: 'ASUS Vivobook Go',
+		description: 'ASUS Vivobook Go Ryzen 5 Quard Code - (8 GB/512 SSD/Windows 11 Home)',
+		price: 74990,
+		discount: 38,
+		image:
+			'https://rukminim2.flixcart.com/image/312/312/xif0q/computer/a/k/k/-original-imagpxgru35rbzwz.jpeg?q=70'
+	},
+	{
+		id: 'hp_pavilion#12',
+		name: 'HP Pavilion Gaming',
+		description:
+			'HP Pavilion Gaming Ryzen 5 Hexa Core - (8 GB/512 GB SSD/Windows 11 Home/4 GB Graphics/NVIDIA GeForce GTX 1650)',
+		price: 56144,
+		discount: 26,
+		image:
+			'https://rukminim2.flixcart.com/image/312/312/kcm9t3k0/computer/q/x/r/hp-na-gaming-laptop-original-imaftpesbvfxgw9t.jpeg?q=70',
+		tag: 'Lowest Price'
+	},
+	{
+		id: 'united_denim#12',
+		name: 'United DENIM',
+		description: 'Men Relaxed Fit Jeans Mid Rise',
+		price: 2999,
+		discount: 84,
+		image:
+			'https://rukminim2.flixcart.com/image/612/612/xif0q/jean/m/l/m/32-united197-dark-grey-united-denim-original-imagzb7rjxez2tgp.jpeg?q=70',
+		tag: 'Special Price'
 	}
 ];
 
@@ -43,7 +120,10 @@ export let addToCart = (product: Product, quantity: number) => {
 		// so we implement a simple check to see if the product is already in the cart
 		let itemIndex = $cart.findIndex((i) => i.product.id === product.id);
 		if (itemIndex === -1) {
-			$cart.push({ product, quantity });
+			let productPrice = product.discount
+				? product.price * (1 - product.discount / 100)
+				: product.price;
+			$cart.push({ product, quantity, productPrice });
 		} else {
 			// Product exists in the cart, update the quantity
 			$cart[itemIndex].quantity += quantity;
@@ -82,6 +162,12 @@ export let increaseQuantity = (productId: string) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
 			$cart[itemIndex].quantity += 1;
+			if ($cart[itemIndex].product.discount) {
+				$cart[itemIndex].productPrice =
+					$cart[itemIndex].product.price *
+					$cart[itemIndex].quantity *
+					(1 - $cart[itemIndex].product.discount / 100);
+			}
 		}
 		return $cart;
 	});
@@ -92,6 +178,12 @@ export let decreaseQuantity = (productId: string) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
 			$cart[itemIndex].quantity -= 1;
+			if ($cart[itemIndex].product.discount) {
+				$cart[itemIndex].productPrice =
+					$cart[itemIndex].product.price *
+					$cart[itemIndex].quantity *
+					(1 - $cart[itemIndex].product.discount / 100);
+			}
 		}
 		return $cart;
 	});

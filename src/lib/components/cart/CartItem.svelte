@@ -6,12 +6,12 @@
 	export let item: CartItem;
 </script>
 
-<li class="flex py-6 sm:py-10">
+<li class="group flex py-6 sm:py-10">
 	<div class="flex-shrink-0">
 		<img
 			src={item.product.image}
-			alt="Front of men&#039;s Basic Tee in sienna."
-			class="h-24 w-24 rounded-xl border object-contain object-center p-1 sm:h-48 sm:w-48"
+			alt={item.product.name}
+			class="h-24 w-24 rounded-2xl border object-contain object-center p-1 transition-all duration-300 group-hover:border-neutral-300 group-hover:shadow-md sm:h-48 sm:w-full sm:min-w-40"
 		/>
 	</div>
 
@@ -20,14 +20,26 @@
 			<div>
 				<div class="flex justify-between">
 					<h3 class="text-sm">
-						<a href="#" class="font-medium text-gray-700 hover:text-gray-800">{item.product.name}</a
+						<a
+							href="/products/{item.product.id}"
+							class="font-medium text-gray-700 hover:text-gray-800">{item.product.name}</a
 						>
 					</h3>
 				</div>
 				<div class="mt-1 flex text-sm">
 					<p class="text-gray-500">{item.product.description}</p>
 				</div>
-				<p class="mt-1 text-sm font-medium text-gray-900">${item.product.price}.00</p>
+				<div class="flex items-baseline gap-2 flex-wrap">
+					<p class="mt-1 text-sm font-medium text-neutral-700 md:text-[18px]">
+						₹{Math.ceil(item.productPrice)}.00
+					</p>
+					<p class="mt-1 text-xs font-medium text-gray-500/80 line-through md:text-[12px]">
+						₹{item.product.price}.00
+					</p>
+					<p class="mt-1 text-xs md:text-[14px] font-medium text-emerald-600">
+						{item.product.discount}% off
+					</p>
+				</div>
 			</div>
 
 			<div class="mt-4 sm:mt-0 sm:pr-9">
@@ -36,7 +48,7 @@
 					<button
 						on:click={() => removefromCart(item.product.id)}
 						type="button"
-						class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
+						class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500 outline-none"
 					>
 						<span class="sr-only">Remove</span>
 						<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

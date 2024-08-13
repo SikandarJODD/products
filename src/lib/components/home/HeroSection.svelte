@@ -12,7 +12,7 @@
 		>
 			Amazing Products
 		</h1>
-		<p class="mt-5 px-20 text-neutral-600 md:px-0">
+		<p class="mt-5 px-10 text-neutral-600 md:px-0">
 			We provide the best products in the market. Check out our <a
 				href="/products"
 				class="font-semibold text-neutral-800 underline underline-offset-2">products</a

@@ -10,6 +10,7 @@ export interface Product {
 //  Add to Cart Type for Ecommerce application
 
 export interface CartItem {
-    product : Product;
-    quantity: number;
+	product: Product;
+	quantity: number;
+	productPrice: number;
 }
