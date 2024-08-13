@@ -20,6 +20,7 @@ This is a simple web application that displays a list of products. The user can 
 - Notification on Add to Cart/Place Order
 - Maximum 5 Units are allowed in each order
 - Clear Cart 
+- Added Edit Quantity using Input Field in Cart Items
 - Responsive UI for Mobile and Desktop
 
 ## Tech Stack

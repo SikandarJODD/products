@@ -54,7 +54,7 @@
 					<div class="px-4 py-6 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:p-8">
 						<div class="sm:flex lg:col-span-7">
 							<div
-								class="aspect-h-1 aspect-w-1 sm:aspect-none w-full flex-shrink-0 overflow-hidden rounded-lg sm:h-40 sm:w-40"
+								class="aspect-square sm:aspect-none w-full flex-shrink-0 overflow-hidden rounded-lg sm:h-40 sm:w-40"
 							>
 								<img
 									src={item.product.image}
@@ -65,7 +65,7 @@
 
 							<div class="mt-6 sm:ml-6 sm:mt-0">
 								<h3 class="text-base font-medium text-gray-900">
-									<a href="#">{item.product.name}</a>
+									<a href="/products/{item.product.id}">{item.product.name}</a>
 								</h3>
 								<p class="mt-2 text-sm font-medium text-gray-900">
 									₹{Math.ceil(item.productPrice)}.00

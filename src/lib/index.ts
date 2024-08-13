@@ -155,6 +155,12 @@ export let updateQuantity = (productId: string, quantity: number) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
 			$cart[itemIndex].quantity = quantity;
+			if ($cart[itemIndex].product.discount) {
+				$cart[itemIndex].productPrice =
+					$cart[itemIndex].product.price *
+					$cart[itemIndex].quantity *
+					(1 - $cart[itemIndex].product.discount / 100);
+			}
 		}
 		return $cart;
 	});
