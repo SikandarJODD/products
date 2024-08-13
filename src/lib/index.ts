@@ -126,7 +126,8 @@ export let addToCart = (product: Product, quantity: number) => {
 			let productPrice = product.discount
 				? product.price * (1 - product.discount / 100)
 				: product.price;
-			$cart.push({ product, quantity, productPrice });
+			let originalPrice = product.price;
+			$cart.push({ product, quantity, productPrice, productOriginalPrice: originalPrice });
 		} else {
 			// Product exists in the cart, update the quantity
 			$cart[itemIndex].quantity += quantity;
@@ -155,6 +156,7 @@ export let updateQuantity = (productId: string, quantity: number) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
 			$cart[itemIndex].quantity = quantity;
+			$cart[itemIndex].productOriginalPrice = $cart[itemIndex].product.price*quantity;
 			if ($cart[itemIndex].product.discount) {
 				$cart[itemIndex].productPrice =
 					$cart[itemIndex].product.price *
@@ -174,6 +176,7 @@ export let increaseQuantity = (productId: string) => {
 				notify('We are Sorry, Only 5 units are allowed in each order');
 			} else {
 				$cart[itemIndex].quantity += 1;
+				$cart[itemIndex].productOriginalPrice = $cart[itemIndex].product.price*$cart[itemIndex].quantity;
 				if ($cart[itemIndex].product.discount) {
 					$cart[itemIndex].productPrice =
 						$cart[itemIndex].product.price *
@@ -191,6 +194,7 @@ export let decreaseQuantity = (productId: string) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
 			$cart[itemIndex].quantity -= 1;
+			$cart[itemIndex].productOriginalPrice = $cart[itemIndex].product.price* $cart[itemIndex].quantity;
 			if ($cart[itemIndex].product.discount) {
 				$cart[itemIndex].productPrice =
 					$cart[itemIndex].product.price *

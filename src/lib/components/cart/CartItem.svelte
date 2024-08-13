@@ -29,14 +29,16 @@
 				<div class="mt-1 flex text-sm">
 					<p class="text-gray-500">{item.product.description}</p>
 				</div>
-				<div class="flex items-baseline gap-2 flex-wrap">
-					<p class="mt-1 text-sm font-medium text-neutral-700 md:text-[18px]">
+				<div class="flex flex-wrap items-baseline gap-2">
+					<p class="mt-1 text-sm font-medium text-neutral-800 md:text-[18px]">
 						₹{Math.ceil(item.productPrice)}.00
 					</p>
-					<p class="mt-1 text-xs font-medium text-gray-500/80 line-through md:text-[12px]">
-						₹{item.product.price}.00
+					<p
+						class="mt-1 text-xs font-medium text-gray-500/80 line-through md:text-[12px] md:text-[14px]"
+					>
+						₹{Math.ceil(item.productOriginalPrice)}.00
 					</p>
-					<p class="mt-1 text-xs md:text-[14px] font-medium text-emerald-600">
+					<p class="mt-1 text-xs font-medium text-emerald-600 md:text-[14px]">
 						{item.product.discount}% off
 					</p>
 				</div>
@@ -48,7 +50,7 @@
 					<button
 						on:click={() => removefromCart(item.product.id)}
 						type="button"
-						class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500 outline-none"
+						class="-m-2 inline-flex p-2 text-gray-400 outline-none hover:text-gray-500"
 					>
 						<span class="sr-only">Remove</span>
 						<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
