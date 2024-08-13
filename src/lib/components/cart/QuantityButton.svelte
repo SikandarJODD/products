@@ -6,7 +6,10 @@
 </script>
 
 <div class="flex h-full w-full gap-1">
-	<button class="icon" on:click={() => increaseQuantity(productId)}>
+	<button
+		class="icon {quantity === 5 ? 'active:bg-neutral-100 active:text-neutral-200' : ''} "
+		on:click={() => increaseQuantity(productId)}
+	>
 		<Plus class="size-4" strokeWidth={1.6} />
 	</button>
 	<button class="quantity_value"> {quantity} </button>
@@ -44,6 +47,6 @@
 	button:disabled {
 		background-color: #f4f4f4;
 		color: #9e9e9e;
-        cursor: not-allowed;
+		cursor: not-allowed;
 	}
 </style>

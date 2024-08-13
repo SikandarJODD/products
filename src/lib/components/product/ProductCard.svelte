@@ -28,7 +28,7 @@
 				class="h-full w-full rounded-xl object-contain object-center lg:h-full lg:w-full"
 			/>
 		</div>
-		<div class="mt-4 flex min-h-14 justify-between px-3">
+		<div class="mt-4 flex min-h-8 md:min-h-14 justify-between px-3">
 			<div>
 				<h3 class="text-sm font-semibold text-gray-900">
 					<a href="/products/{product.id}">

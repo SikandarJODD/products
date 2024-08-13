@@ -187,9 +187,9 @@
 					<a
 						on:click={() => (isMobileMenu = false)}
 						href={link}
-						class="flex gap-1.5 rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900"
+						class="flex gap-1.5 rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:text-gray-900 items-center"
 					>
-						<svelte:component this={icon} strokeWidth={1.4} class="size-[22px]" />
+						<svelte:component this={icon} strokeWidth={1.4} class="size-[21px]" />
 						{name}</a
 					>
 				{/each}

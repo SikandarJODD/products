@@ -1,5 +1,6 @@
 import { derived, writable, type Writable } from 'svelte/store';
 import type { CartItem, Product } from './types/products';
+import { notify } from './utils';
 
 // using writable for global state management
 export let products: Product[] = [
@@ -104,6 +105,8 @@ export let products: Product[] = [
 
 export let cart: Writable<CartItem[]> = writable([]);
 
+export let discount = 10; // 10% addtional discount on Total Price
+
 // Total Unique items in the cart
 export let totalUniqueItems = derived(cart, ($cart) => {
 	return $cart.length;
@@ -161,12 +164,16 @@ export let increaseQuantity = (productId: string) => {
 	cart.update(($cart) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
-			$cart[itemIndex].quantity += 1;
-			if ($cart[itemIndex].product.discount) {
-				$cart[itemIndex].productPrice =
-					$cart[itemIndex].product.price *
-					$cart[itemIndex].quantity *
-					(1 - $cart[itemIndex].product.discount / 100);
+			if ($cart[itemIndex].quantity >= 5) {
+				notify('We are Sorry, Only 5 units are allowed in each order');
+			} else {
+				$cart[itemIndex].quantity += 1;
+				if ($cart[itemIndex].product.discount) {
+					$cart[itemIndex].productPrice =
+						$cart[itemIndex].product.price *
+						$cart[itemIndex].quantity *
+						(1 - $cart[itemIndex].product.discount / 100);
+				}
 			}
 		}
 		return $cart;
@@ -214,9 +221,10 @@ export let totalDiscountAmount = derived(cart, ($cart) => {
 	}, 0);
 });
 
+// Total Amount to be paid after additonal discount
 export let totalAmount = derived(
 	[totalPrice, totalDiscountAmount],
 	([$totalPrice, $totalDiscountAmount]) => {
-		return $totalPrice - $totalDiscountAmount;
+		return ($totalPrice - $totalDiscountAmount) * (1 - discount / 100);
 	}
 );

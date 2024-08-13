@@ -1,11 +1,20 @@
 <script>
-	import { totalAmount, totalDiscountAmount, totalPrice, totalUniqueItems } from '$lib';
+	import { goto } from '$app/navigation';
+	import {
+		clearCart,
+		discount,
+		totalAmount,
+		totalDiscountAmount,
+		totalPrice,
+		totalUniqueItems
+	} from '$lib';
 	import { notify } from '$lib/utils';
+	import { fade } from 'svelte/transition';
 </script>
 
 <section
 	aria-labelledby="summary-heading"
-	class="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
+	class="mt-0 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
 >
 	<h2 id="summary-heading" class="text-lg font-medium text-gray-900">Order summary</h2>
 
@@ -20,6 +29,7 @@
 				- ₹{Math.round($totalDiscountAmount)}.00
 			</dd>
 		</div>
+
 		<div class="flex items-center justify-between">
 			<dt class="flex gap-1 text-sm text-gray-600">
 				Delivery
@@ -36,17 +46,32 @@
 			</dt>
 			<dd class="text-sm font-normal text-green-600/80">Free</dd>
 		</div>
+		{#if $totalUniqueItems > 0}
+			<div transition:fade={{ duration: 200 }} class="flex items-center justify-between">
+				<dt class="text-sm text-gray-600">Additional Discount</dt>
+				<dd class="text-sm font-semibold text-gray-900">{discount}%</dd>
+			</div>
+		{/if}
 
 		<div class="flex items-center justify-between border-t border-dashed border-gray-200 pt-4">
 			<dt class="text-base font-medium text-gray-900">Total Amount</dt>
-			<dd class="text-base font-medium text-gray-900">₹{Math.ceil($totalAmount)}</dd>
+			<dd class="text-base font-semibold text-gray-900">₹{Math.ceil($totalAmount)}</dd>
 		</div>
 	</dl>
 
 	<div class="mt-6">
 		<button
-			on:click={() =>
-				notify('Order Placed Successfully!', 'Visit Checkout page to see your order details.')}
+			on:click={() => {
+				if ($totalUniqueItems === 0) {
+					notify('Add Products', 'Add items to cart to place order.');
+				} else {
+					notify('Order placed successfully!', 'Your order has been placed successfully.');
+				}
+				setTimeout(() => {
+					// clearCart();
+					goto('/confirm-order');
+				}, 1500);
+			}}
 			type="submit"
 			class="w-full rounded-md border border-transparent bg-emerald-500 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-emerald-500/95 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-50"
 			>Place Order</button

@@ -6,11 +6,16 @@ export let notifyTtitle = writable('');
 export let notifyDesc = writable('');
 export let showNotification = writable(false);
 
-export let notify = (title: string, desc: string) => {
+export let notify = (title: string, desc?: string) => {
 	notifyTtitle.set(title);
-	notifyDesc.set(desc);
+	if (desc) {
+		notifyDesc.set(desc);
+	}
+	else{
+		notifyDesc.set('');
+	}
 	showNotification.set(true);
 	setTimeout(() => {
 		showNotification.set(false);
-	}, 3000);
+	}, 1800);
 };

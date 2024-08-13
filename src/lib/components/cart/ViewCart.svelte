@@ -5,7 +5,7 @@
 </script>
 
 <div class="bg-white">
-	<div class="mx-auto max-w-2xl px-4 pb-24 pt-5 sm:px-6 lg:max-w-7xl lg:px-8">
+	<div class="mx-auto max-w-2xl px-4 pb-4 pt-5 sm:px-6 lg:max-w-7xl lg:px-8">
 		<h1 class="text-center md:text-left text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl ">
 			Shopping Cart
 		</h1>
