@@ -5,7 +5,7 @@ import { notify } from './utils';
 // using writable for global state management
 export let products: Product[] = [
 	{
-		id: 'noice_#10',
+		id: 'noice_',
 		name: 'Noise Force Plus',
 		price: 3000,
 		image:
@@ -15,7 +15,7 @@ export let products: Product[] = [
 		tag: 'Best Seller'
 	},
 	{
-		id: 'fossil_#12',
+		id: 'fossil_',
 		name: 'FOSSIL',
 		price: 4500,
 		image:
@@ -25,7 +25,7 @@ export let products: Product[] = [
 		tag: '20% off'
 	},
 	{
-		id: 'yello_cimes#12',
+		id: 'yello_cimes',
 		name: 'Yellow Chimes',
 		price: 999,
 		discount: 77,
@@ -34,7 +34,7 @@ export let products: Product[] = [
 			'https://rukminim2.flixcart.com/image/612/612/l1xwqkw0/ring/7/s/g/-original-imagde4th6wevgnh.jpeg?q=70'
 	},
 	{
-		id: 'devora_#14',
+		id: 'devora_',
 		name: 'Devora Rings',
 		description: 'Devora Rings Gold Plated Cubic Zirconia Ring',
 		price: 999,
@@ -43,7 +43,7 @@ export let products: Product[] = [
 			'https://rukminim2.flixcart.com/image/612/612/xif0q/ring/m/b/x/-original-imahyjfdrwpknpkm.jpeg?q=70'
 	},
 	{
-		id: 'apple_mac#12',
+		id: 'apple_mac',
 		name: 'Apple 2022 MacBook Air',
 		price: 99900,
 		description: 'Apple M1 Chip 8-core CPU and 7-core GPU 256 GB SSD',
@@ -53,7 +53,7 @@ export let products: Product[] = [
 		discount: 11
 	},
 	{
-		id: 'vivo_t2_5g#12',
+		id: 'vivo_t2_5g',
 		name: 'Vivo T2 5G',
 		price: 23999,
 		discount: 33,
@@ -63,7 +63,7 @@ export let products: Product[] = [
 		tag: 'Lowest Price'
 	},
 	{
-		id: 'samsung_galaxy#12',
+		id: 'samsung_galaxy',
 		name: 'SAMSUNG Galaxy F14 5G',
 		price: 16499,
 		discount: 6,
@@ -72,7 +72,7 @@ export let products: Product[] = [
 			'https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/8/5/z/galaxy-a14-sm-a145fzsdins-samsung-original-imagq6cp4mbhejzn.jpeg?q=70'
 	},
 	{
-		id: 'asus_viobook#12',
+		id: 'asus_viobook',
 		name: 'ASUS Vivobook Go',
 		description: 'ASUS Vivobook Go Ryzen 5 Quard Code - (8 GB/512 SSD/Windows 11 Home)',
 		price: 74990,
@@ -81,7 +81,7 @@ export let products: Product[] = [
 			'https://rukminim2.flixcart.com/image/312/312/xif0q/computer/a/k/k/-original-imagpxgru35rbzwz.jpeg?q=70'
 	},
 	{
-		id: 'hp_pavilion#12',
+		id: 'hp_pavilion',
 		name: 'HP Pavilion Gaming',
 		description:
 			'HP Pavilion Gaming Ryzen 5 Hexa Core - (8 GB/512 GB SSD/Windows 11 Home/4 GB Graphics/NVIDIA GeForce GTX 1650)',
@@ -92,7 +92,7 @@ export let products: Product[] = [
 		tag: 'Lowest Price'
 	},
 	{
-		id: 'united_denim#12',
+		id: 'united_denim',
 		name: 'United DENIM',
 		description: 'Men Relaxed Fit Jeans Mid Rise',
 		price: 2999,
@@ -130,7 +130,8 @@ export let addToCart = (product: Product, quantity: number) => {
 			$cart.push({ product, quantity, productPrice, productOriginalPrice: originalPrice });
 		} else {
 			// Product exists in the cart, update the quantity
-			$cart[itemIndex].quantity += quantity;
+			// We can add a check to see if the quantity is more than 5
+				$cart[itemIndex].quantity += quantity;
 		}
 		return $cart;
 	});
@@ -156,7 +157,7 @@ export let updateQuantity = (productId: string, quantity: number) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
 			$cart[itemIndex].quantity = quantity;
-			$cart[itemIndex].productOriginalPrice = $cart[itemIndex].product.price*quantity;
+			$cart[itemIndex].productOriginalPrice = $cart[itemIndex].product.price * quantity;
 			if ($cart[itemIndex].product.discount) {
 				$cart[itemIndex].productPrice =
 					$cart[itemIndex].product.price *
@@ -176,7 +177,8 @@ export let increaseQuantity = (productId: string) => {
 				notify('We are Sorry, Only 5 units are allowed in each order');
 			} else {
 				$cart[itemIndex].quantity += 1;
-				$cart[itemIndex].productOriginalPrice = $cart[itemIndex].product.price*$cart[itemIndex].quantity;
+				$cart[itemIndex].productOriginalPrice =
+					$cart[itemIndex].product.price * $cart[itemIndex].quantity;
 				if ($cart[itemIndex].product.discount) {
 					$cart[itemIndex].productPrice =
 						$cart[itemIndex].product.price *
@@ -194,7 +196,8 @@ export let decreaseQuantity = (productId: string) => {
 		let itemIndex = $cart.findIndex((i) => i.product.id === productId);
 		if (itemIndex !== -1) {
 			$cart[itemIndex].quantity -= 1;
-			$cart[itemIndex].productOriginalPrice = $cart[itemIndex].product.price* $cart[itemIndex].quantity;
+			$cart[itemIndex].productOriginalPrice =
+				$cart[itemIndex].product.price * $cart[itemIndex].quantity;
 			if ($cart[itemIndex].product.discount) {
 				$cart[itemIndex].productPrice =
 					$cart[itemIndex].product.price *

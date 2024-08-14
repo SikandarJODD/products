@@ -14,11 +14,6 @@
 			icon: Package,
 			link: '/products'
 		},
-		{
-			name: 'About',
-			icon: User,
-			link: '/about'
-		}
 	];
 	let isMobileMenu = false;
 </script>
